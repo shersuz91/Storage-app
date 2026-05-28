@@ -143,13 +143,12 @@
       display: none;
     }
 
-    .open>.dropdown-menu {
-      min-width: 100px !important;
-    }
-
+  
     .dropdown-menu {
+      min-width: 100px !important;
       position: fixed;
-      bottom: 40px;
+      top: auto;
+      bottom: 50px !important;
       left: 50%;
       transform: translateX(-50%);
     }
@@ -198,7 +197,7 @@
 <body>
 
   <div id="summernote" onchange="checkit(this)">
-    {{file_data[2]|safe}}
+    {{file_data[3]|safe}}
   </div>
   
   <div id="option_list" class='option_list small_screen'>
@@ -238,7 +237,7 @@
     data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Icon-only" bar_btn> <i
       class="bi bi-list"></i> </button>
     <p class="text-start py-1 px-3 m-0 border rounded fs-4 fw-bold text-white">
-            {{file_data[1]}}</p>
+            {{file_data[2]}}</p>
     <div class="box_btn">
     <button class="btn btn-success" onclick="save(this)">Save</button>
     <button class="btn btn-danger" onclick="cancel(this)">Cancel</button>

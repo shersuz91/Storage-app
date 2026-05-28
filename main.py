@@ -1,15 +1,23 @@
 from flask import Flask, render_template, request, session,redirect, url_for
 from datetime import datetime
 import sqlite3
+import requests
+from requests.auth import HTTPBasicAuth
+import psycopg2
+import os
+
 
 app = Flask(__name__)
-app.secret_key="skji34n9*&^&"
 
+# this key is for session
+app.secret_key="skji34n9*&^&"
+# this url is for database 
+DATABASE_URL="postgresql://postgres.wleqkhsiftorujqponph:CproProjectJklonme@aws-1-us-west-2.pooler.supabase.com:5432/postgres"
 
 # this is the function that create the connection with data
 # we should call this function each time we want to fetch data or store or update or delete data
 def cursor_():
-    conn =  sqlite3.connect("database.db")
+    conn = psycopg2.connect(DATABASE_URL)
     cursor = conn.cursor()
     return conn, cursor
 
@@ -30,15 +38,17 @@ def file(id):
         conn, cursor = cursor_()
 
         cursor.execute("""
-        SELECT * FROM files WHERE id=?
+        SELECT * FROM files WHERE id=%s
         """, (id,))
         data = cursor.fetchone()
 
         # here we confirm the changes and close the connection
         conn.commit()
         conn.close()
-
-        return render_template("file.html", file_data = data)
+        if data:
+            return render_template("file.html", file_data = data)
+        else:
+            return "No data" # I will update this later
     else:
         return "Not" # I will update this later
     
@@ -51,7 +61,7 @@ def save():
     file_content = request.form["file_content"]
     file_id = request.form["file_id"]
     cursor.execute("""
-    UPDATE files SET file_content = ? WHERE id = ?
+    UPDATE files SET file_content = %s WHERE id = %s
     """,(file_content, file_id))
     
     conn.commit()

@@ -48,16 +48,17 @@
       background-color: antiquewhite;
       border-color: #6a6a6a;
       box-shadow: 1px 1px 3px #333;
-      position: sticky;
-      top: 0;
+      position: fixed;
+      width: 100%;
+      bottom: 14px;
       z-index: 10;
-      display: flex;
       flex-wrap: nowrap !important;
       overflow-x: auto;
+      display: none;
     }
 
     .note-editor .note-toolbar>.note-btn-group {
-      display: none;
+      display: flex;
       align-items: center;
     }
 
@@ -68,6 +69,7 @@
     .note-editable {
       padding-bottom: 100px !important;
       overflow: scroll;
+      padding-top: 45px !important;
     }
 
     .note-statusbar {
@@ -80,26 +82,44 @@
       height: 40px;
       width: 40px;
       display: block;
+      background-color: transparent;
+      border: none;
+      font-size: 30px;
+      left :0;
+      padding: 0 !important;
     }
-
+    .BarBox {
+      right: 0px;
+      top: 0px;
+      background-color: #1b89e4;
+      width: 100%;
+      height: 40px;
+      text-align: right;
+      padding: 3px 3px 3px 40px ;
+    }
+    .BarBox .box_btn {
+      display: none;
+    }
     #option_list {
       grid-area: side;
+      height: calc(100vh - 40px);
+      position: relative;
+      z-index: 90;
+      
+      top: 40px;
+      left: 0%;
     }
 
     .small_screen {
 
-      position: relative;
-      z-index: 90;
       width: 50%;
-      top: 40px;
-      left: 0%;
       display: none;
-      height: calc(100vh - 40px);
+      
     }
 
     .big_screen {
       display: block;
-      height: calc(100vh);
+      /* height: calc(100vh); */
     }
 
     .bg-body-tertiary {
@@ -129,7 +149,7 @@
 
     .dropdown-menu {
       position: fixed;
-      top: 40px;
+      bottom: 40px;
       left: 50%;
       transform: translateX(-50%);
     }
@@ -138,15 +158,7 @@
       display: none;
     }
 
-    .box_btn {
-      display: none;
-      right: 0px;
-      bottom: 10px;
-      background-color: #005ca7;
-      width: 100%;
-      text-align: right;
-      padding: 10px;
-    }
+    
 .note-editor.note-airframe.codeview .note-editing-area .note-codable, .note-editor.note-frame.codeview .note-editing-area .note-codable{
   height: calc(100vh - 40px) !important;
 }
@@ -188,12 +200,11 @@
   <div id="summernote" onchange="checkit(this)">
     {{file_data[2]|safe}}
   </div>
-  <button onclick="showlist(this)" class="menubar position-fixed top-0 z-50 p-3 link-body-emphasis text-decoration-none"
-    data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Icon-only" bar_btn> <i
-      class="bi bi-list"></i> </button>
+  
   <div id="option_list" class='option_list small_screen'>
     <div class="d-flex flex-column flex-shrink-0 bg-body-tertiary" style="width: 4.5rem;">
       <ul class="nav nav-pills nav-flush flex-column mb-auto text-center">
+        <li class="nav-item">  </li>
         <li class="nav-item"> <button onclick="editFile(this)" class="nav-link active py-3 border-bottom rounded-0"
             aria-current="page" data-bs-toggle="tooltip" data-bs-placement="right" aria-label="Edite"
             data-bs-original-title="Edite">
@@ -222,10 +233,16 @@
       </div> -->
     </div>
   </div>
-  <div class="box_btn position-fixed">
+  <div class="BarBox position-fixed d-flex align-items-center justify-content-between ">
+    <button onclick="showlist(this)" class="menubar text-white position-fixed top-0 z-50 p-3 link-body-emphasis text-decoration-none"
+    data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Icon-only" bar_btn> <i
+      class="bi bi-list"></i> </button>
+    <p class="text-start py-1 px-3 m-0 border rounded fs-4 fw-bold text-white">
+            {{file_data[1]}}</p>
+    <div class="box_btn">
     <button class="btn btn-success" onclick="save(this)">Save</button>
     <button class="btn btn-danger" onclick="cancel(this)">Cancel</button>
-
+</div>
   </div>
   <form id="form" action="/save" method="post">
     <input type="hidden" value="" id="file_content" name="file_content">
@@ -312,7 +329,7 @@
     function editFile(el) {
       oldContent = $('#summernote').summernote('code')
       var editorAre = document.querySelector("div[contenteditable]")
-      var controler = document.querySelectorAll(".note-editor .note-toolbar>.note-btn-group")
+      var controler = document.querySelectorAll(".panel-heading.note-toolbar")
       editorAre.setAttribute("contenteditable", "true")
       editorAre.focus()
       controler.forEach(el => {
@@ -335,7 +352,7 @@
       $(".box_btn").hide()
 
       var editorAre = document.querySelector("div[contenteditable]")
-      var controler = document.querySelectorAll(".note-editor .note-toolbar>.note-btn-group")
+      var controler = document.querySelectorAll(".panel-heading.note-toolbar")
       editorAre.setAttribute("contenteditable", "false")
       editorAre.focus()
       controler.forEach(el => {

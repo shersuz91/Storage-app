@@ -43,6 +43,7 @@ user_password  (by Sherman)
 for files:
 file_id  (every file for every user must has unique id file that means two users can have smae file-id but not same user-id)  (by Sherman)
 file_name  (by Sherman)
+file_content (by Sherman)
 We may have other variable if so we can write them here
 
 for dashboard 

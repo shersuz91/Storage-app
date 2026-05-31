@@ -5,9 +5,15 @@ import requests
 from requests.auth import HTTPBasicAuth
 import psycopg2
 import os
-
-
 app = Flask(__name__)
+
+@app.route("/")
+def home():
+    return render_template("home.html")
+
+@app.route("/login")
+def login():
+    return render_template("login.html")
 
 # this key is for session
 app.secret_key="skji34n9*&^&"
@@ -20,9 +26,6 @@ def cursor_():
     conn = psycopg2.connect(DATABASE_URL)
     cursor = conn.cursor()
     return conn, cursor
-
-
-
 
 #this route leads to the file page where you can write a note or read it
 # run the code and add to the link /file/4 or 5 or 6 or 7 or 8 (each number is the id of a file)
@@ -69,6 +72,6 @@ def save():
 
     return redirect(f"/file/{file_id}")
 
-
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug = True)
+

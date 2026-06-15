@@ -7,13 +7,20 @@ import psycopg2
 import os
 app = Flask(__name__)
 
+#route for Home/main page -Tess
 @app.route("/")
 def home():
     return render_template("home.html")
 
-@app.route("/login")
+#route for login page -Tess
+@app.route("/login", methods=["GET", "POST"])
 def login():
     return render_template("login.html")
+
+#route for signup page -Tess
+@app.route("/signup")
+def signup():
+    return render_template("signup.html")
 
 # this key is for session
 app.secret_key="skji34n9*&^&"

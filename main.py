@@ -8,18 +8,25 @@ import os
 
 app = Flask(__name__)
 
-# this key is for session
-app.secret_key="skji34n9*&^&"
-# this url is for database 
-DATABASE_URL="postgresql://postgres.wleqkhsiftorujqponph:CproProjectJklonme@aws-1-us-west-2.pooler.supabase.com:5432/postgres"
-
+#route for Home/main page -Tess
 @app.route("/")
 def home():
     return render_template("home.html")
 
-@app.route("/login")
+#route for login page -Tess
+@app.route("/login", methods=["GET", "POST"])
 def login():
     return render_template("login.html")
+
+#route for signup page -Tess
+@app.route("/signup")
+def signup():
+    return render_template("signup.html")
+
+# this key is for session
+app.secret_key="skji34n9*&^&"
+# this url is for database 
+DATABASE_URL="postgresql://postgres.wleqkhsiftorujqponph:CproProjectJklonme@aws-1-us-west-2.pooler.supabase.com:5432/postgres"
 
 # this is the function that create the connection with data
 # we should call this function each time we want to fetch data or store or update or delete data

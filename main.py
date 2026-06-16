@@ -5,7 +5,13 @@ import requests
 from requests.auth import HTTPBasicAuth
 import psycopg2
 import os
+
 app = Flask(__name__)
+
+# this key is for session
+app.secret_key="skji34n9*&^&"
+# this url is for database 
+DATABASE_URL="postgresql://postgres.wleqkhsiftorujqponph:CproProjectJklonme@aws-1-us-west-2.pooler.supabase.com:5432/postgres"
 
 @app.route("/")
 def home():
@@ -14,11 +20,6 @@ def home():
 @app.route("/login")
 def login():
     return render_template("login.html")
-
-# this key is for session
-app.secret_key="skji34n9*&^&"
-# this url is for database 
-DATABASE_URL="postgresql://postgres.wleqkhsiftorujqponph:CproProjectJklonme@aws-1-us-west-2.pooler.supabase.com:5432/postgres"
 
 # this is the function that create the connection with data
 # we should call this function each time we want to fetch data or store or update or delete data

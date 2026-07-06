@@ -9,14 +9,16 @@
     <h1>Login</h1> 
     <form action="/login" method="POST">
         <div>
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username"> 
+            <label for="email">Email:</label>
+            <input type="text" id="email" name="email"> 
         </div>
         
         <div>
             <label for="password">Password:</label>
             <input type="text" id="password" name="password"> 
         </div>
+        <input type="submit" value="Login">
+    </form>
     <br>
     <a href="{{ url_for('signup')}}"> No Account? Signup </a> <!--To be styled as button in css T-->
 </body>

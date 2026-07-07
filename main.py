@@ -8,9 +8,9 @@ import os
 
 app = Flask(__name__)
 
-# this key is for session
+# this key is for session -sherman
 app.secret_key="skji34n9*&^&"
-# this url is for database 
+# this url is for database  -sherman
 DATABASE_URL="postgresql://postgres.wleqkhsiftorujqponph:CproProjectJklonme@aws-1-us-west-2.pooler.supabase.com:5432/postgres"
 
 #route for Home/main page -Tess
@@ -31,14 +31,14 @@ def signup():
 
 
 # this is the function that create the connection with data
-# we should call this function each time we want to fetch data or store or update or delete data
+# we should call this function each time we want to fetch data or store or update or delete data -sherman
 def cursor_():
     conn = psycopg2.connect(DATABASE_URL)
     cursor = conn.cursor()
     return conn, cursor
 
 #this route leads to the file page where you can write a note or read it
-# run the code and add to the link /file/4 or 5 or 6 or 7 or 8 (each number is the id of a file)
+# run the code and add to the link /file/4 or 5 or 6 or 7 or 8 (each number is the id of a file) -sherman
 @app.route("/file/<int:id>")
 def file(id):
     # this sessions should be in login or sign in route , we will remove it later
@@ -66,7 +66,7 @@ def file(id):
         return "Not" # I will update this later
     
 
-# this route is for saving the changes that the user made on their file
+# this route is for saving the changes that the user made on their file -sherman
 @app.route("/save", methods=["POST"])
 def save():
     conn, cursor = cursor_()

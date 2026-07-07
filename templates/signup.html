@@ -9,17 +9,30 @@
     <h1>Sign-Up</h1>
     <form action = "/signup" method="POST">
         <div>
-            <label for="user_email">Email:</label>
-            <input type="text" id="email" name="email"> 
+            <label for="email">Email:</label>
+            <input type="text" id="email" name="email" {% if message and message[0].strip() !="" %} value ="{{message[0]}}" {% endif %}> 
+            {% if message and message[0].strip() =="" %} <span style="color:red">Email should not be empty </span>
+            {% elif message and "invalidEmail" in message %} <span style="color:red">Email is not valid </span>{% endif %}
+            {% if message and "existedEmail" in message %} <span style="color:red">Email already exists </span>{% endif %}
+
         </div>
         <div>
             <label for="username">Username:</label>
-            <input type="text" id="username" name="username"> 
+            <input type="text" id="username" name="username"  {% if message and message[1].strip() !="" %} value ="{{message[1]}}" {% endif %}> 
+             {%  if message and message[1].strip() ==""  %} <span style="color:red">Username should not be empty </span>{% endif %}
+             {%  if message and "existedUsername" in message %} <span style="color:red">Username already exists </span>{% endif %}
         </div>
         
         <div>
-            <label for="user_password">Password:</label>
-            <input type="text" id="password" name="password"> 
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" {% if message and message[2].strip() !="" %} value ="{{message[2]}}" {% endif %}> 
+            {% if message and message[2].strip() =="" %} <span style="color:red">Password should not be empty </span>{% endif %}
+        </div>
+        <div>
+            <label for="confrim_password">Confirm Password:</label>
+            <input type="password" id="confrim_password" name="confirmpassword" {% if message and message[3].strip() !="" %} value ="{{message[3]}}" {% endif %}> 
+            {% if message and message[3].strip() =="" %} <span style="color:red">Password should not be empty </span>{% endif %}
+            {% if message and "wrongConfirm" in message %} <span style="color:red">Passwords do not match </span>{% endif %}
         </div>
         <input type="submit" value="Sign-Up">
     </form>

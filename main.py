@@ -2,16 +2,21 @@ from flask import Flask, render_template, request, session,redirect, url_for
 from datetime import datetime
 import sqlite3
 import requests
-from requests.auth import HTTPBasicAuth
-import psycopg2
-import os
+from sqlalchemy import create_engine, text
+
 
 app = Flask(__name__)
 
 # this key is for session -sherman
 app.secret_key="skji34n9*&^&"
 # this url is for database  -sherman
-DATABASE_URL="postgresql://postgres.wleqkhsiftorujqponph:CproProjectJklonme@aws-1-us-west-2.pooler.supabase.com:5432/postgres"
+DATABASE_URL="postgresql://neondb_owner:npg_19ZgXruOMpIP@ep-ancient-shape-ahwx4plg-pooler.c-3.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
+
+
+# create the engine -sherman
+engine = create_engine(DATABASE_URL)
+
+
 
 #route for Home/main page -Tess
 @app.route("/")
@@ -20,57 +25,151 @@ def home():
 
 #route for login page -Tess
 @app.route("/login", methods=["GET", "POST"])
-def login():
+def login(message = ""):
     if request.method == "POST":
-        email = request.form.get('email')
-        password = request.form.get('password')
-        print(email, password)
-    return render_template("login.html")
+        email = request.form["email"] 
+        password = request.form["password"]
+        # store the email and password in a list to check if they are empty or not
+        datalist = [email, password]
+        # check if the email is valid or not
+        if  "@" not in email or "." not in email.split("@")[1]:
+                datalist.append("invalidEmail...")
+        # check if the email and password are the only two items in the list without any other messages and also check if they are not empty, if all these conditions are true then we will check the database for the user
+        if len(datalist) == 2 and email.strip()!= "" and password.strip() !="":
+            with engine.begin() as conn:
+                response = conn.execute(text("""
+    SELECT * FROM users WHERE email= :email AND password= :password
+    """),{
+        "email":email,
+        "password":password
+    })      
+                
+
+            row = response.mappings().first()
+
+
+            # here we check if the row is not empty,which means the user exist in the database and the email and password are correct
+            if row:
+                data = dict(row)
+                session["username"] = data["username"]
+                session["id"] = data["id"]
+                # here should return dashboard route - sherman
+                return render_template("dashboard.html")
+            
+            # if the row is empty, which means the user does not exist in the database or the email and password are incorrect,
+            else:
+                # if the email and password are not empty but the the email and password are incorrect, we will add a message to the list to shows the user that the email or password is incorrect
+                datalist.append("wrongEntry")
+                return render_template("login.html", message=datalist)
+            
+
+        # if email or password are empty or if the email is invalid we will pass a message 
+        else:
+            return render_template("login.html", message=datalist)
+
+    else:
+        return render_template("login.html")
 
 #route for signup page -Tess
 @app.route("/signup", methods = ["GET", "POST"])
-def signup():
+def signup(message = ""):
+    
     if request.method == "POST":
-        email = request.form.get('email')
-        username = request.form.get('username')
-        password = request.form.get('password')
-        print(email, username, password)
-    return render_template("signup.html")
+        email = request.form["email"] 
+        username = request.form["username"]
+        password = request.form["password"]
+        confirmpassword = request.form["confirmpassword"]
+
+         # ## INPUT VALIDAION CODES STARTS ###
+        # chech if all inputs are not empty
+        dataList = [email, username, password, confirmpassword]
+
+        if email.strip() !="" or username.strip()!= "":
+
+            with engine.begin() as conn:
+                response = conn.execute(text("""
+SELECT * FROM users WHERE email= :email OR username= :username
+"""),{
+    "email": email,
+    "username": username
+                })
+            rows = response.mappings().all()
+            data = [dict(row) for row in rows]
+            # Here I ask if any of the emails in the rows equals to the email that the user just entered to sign up, so if True eamil already exist
+
+            if any(rowData["email"] == email for rowData in data):
+                dataList.append("existedEmail")
+            # the same thing here
+            if any(rowData["username"] == username for rowData in data):
+                dataList.append("existedUsername")
+            
+       
+        if "@" not in email or "." not in email.split("@")[1]:
+            dataList.append("invalidEmail")
+        if password != confirmpassword:
+            dataList.append("wrongConfirm")
+
+
+        # here i am checking if all fields in the form is not empty (empty string return false), so if one is false so don't continue
+        # also I added checking for the length of the datalist if it is more than 4 (which is the number of the fields in the form) so that means there is at least one message for the user
+        if not all(inputs.strip() for inputs in dataList) or len(dataList) > 4:
+            # if one is empty return the dataList to the the sinup page 
+            return render_template("signup.html", message=dataList)
+        
+
+        # ## INPUT VALIDAION CODES ENDED ###
+        
+        with engine.begin() as conn:
+            conn.execute(text("""
+        INSERT INTO users (email, username, password) VALUES (:email, :username, :password)
+        """), {
+            "email":email,
+            "username":username, 
+            "password":password
+        })
+        session["username"] = username
+        print(email, username, password) 
+
+        with engine.begin() as conn:
+            response = conn.execute(text("""
+SELECT * FROM users WHERE username= :username and email= :email
+"""),{
+        "username" :username,
+        "email" : email
+            })
+            session["id"] = dict(response.mappings().all()[0])["id"]
+        # here should return dashboard route - sherman
+        return render_template("dashboard.html")
+
+    else:
+        return render_template("signup.html")
 
 
 
-# this is the function that create the connection with data
-# we should call this function each time we want to fetch data or store or update or delete data -sherman
-def cursor_():
-    conn = psycopg2.connect(DATABASE_URL)
-    cursor = conn.cursor()
-    return conn, cursor
-
-#this route leads to the file page where you can write a note or read it
+#this route leads to the file page where you can write a note or read it -sherman
 # run the code and add to the link /file/4 or 5 or 6 or 7 or 8 (each number is the id of a file) -sherman
 @app.route("/file/<int:id>")
 def file(id):
     # this sessions should be in login or sign in route , we will remove it later
-    session["user_name"] = "userName" # usually we will add here the user name
-    session["id"] = 7 # also here we will add the user id but I put 7 since the only user we have has id 7
 
 
-    if"user_name" in session:
-        # Here I called the connection function to fetch data
-        conn, cursor = cursor_()
+    if"username" in session:
+        # open the connection 
+        with engine.begin() as conn:
+            response = conn.execute(text("""
+            SELECT * FROM files WHERE id= :id AND user_id= :user_id
+            """), {
+                "id" : id,
+                "user_id": session["id"]
+            })
+            row = response.mappings().first()
+            if row:
+                data = dict(row)
+                return render_template("file.html", file_data = data)
+            else:
+                return "No data" # I will update this later
+        
 
-        cursor.execute("""
-        SELECT * FROM files WHERE id=%s
-        """, (id,))
-        data = cursor.fetchone()
-
-        # here we confirm the changes and close the connection
-        conn.commit()
-        conn.close()
-        if data:
-            return render_template("file.html", file_data = data)
-        else:
-            return "No data" # I will update this later
     else:
         return "Not" # I will update this later
     
@@ -78,17 +177,17 @@ def file(id):
 # this route is for saving the changes that the user made on their file -sherman
 @app.route("/save", methods=["POST"])
 def save():
-    conn, cursor = cursor_()
 
     file_content = request.form["file_content"]
     file_id = request.form["file_id"]
-    cursor.execute("""
-    UPDATE files SET file_content = %s WHERE id = %s
-    """,(file_content, file_id))
     
-    conn.commit()
-    conn.close()
-
+    with engine.begin() as conn:
+        conn.execute(text("""
+UPDATE files SET file_content= :file_content WHERE id= :id
+"""), {
+    "file_content": file_content,
+    "id": file_id
+})
     return redirect(f"/file/{file_id}")
 
 if __name__ == "__main__":

@@ -195,9 +195,9 @@
 </head>
 
 <body>
-
   <div id="summernote" onchange="checkit(this)">
-    {{file_data[3]|safe}}
+    {{session["id"]}}
+    {{file_data["file_content"]|safe}}
   </div>
   
   <div id="option_list" class='option_list small_screen'>
@@ -237,7 +237,7 @@
     data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Icon-only" bar_btn> <i
       class="bi bi-list"></i> </button>
     <p class="text-start py-1 px-3 m-0 border rounded fs-4 fw-bold text-white">
-            {{file_data[2]}}</p>
+            {{file_data["file_name"]}}</p>
     <div class="box_btn">
     <button class="btn btn-success" onclick="save(this)">Save</button>
     <button class="btn btn-danger" onclick="cancel(this)">Cancel</button>
@@ -245,7 +245,7 @@
   </div>
   <form id="form" action="/save" method="post">
     <input type="hidden" value="" id="file_content" name="file_content">
-    <input type="hidden" value="{{file_data[0]|safe}}" id="file_id" name="file_id">
+    <input type="hidden" value="{{file_data["id"]|safe}}" id="file_id" name="file_id">
   </form>
 
   <script>

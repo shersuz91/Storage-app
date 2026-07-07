@@ -8,15 +8,19 @@
 <body>
     <h1>Login</h1> 
     <form action="/login" method="POST">
+            {% if message and "wrongEntry" in message %} <span style="color:red">Wrong email or password</span>{% endif %}
         <div>
             <label for="email">Email:</label>
-            <input type="text" id="email" name="email"> 
+            <input type="text" id="email" name="email" {% if message and message[0].strip() != ""  %} value="{{message[0]}}" {% endif %}> 
+            {% if message and message[0].strip() == "" %} <span style="color:red">Email should not be empty </span>
+            {% elif message and "invalidEmail..." in message %} <span style="color:red">Email is not valid </span>{% endif %}
         </div>
         
         <div>
             <label for="password">Password:</label>
-            <input type="text" id="password" name="password"> 
-        </div>
+            <input type="password" id="password" name="password" {% if message and message[1].strip() !=""  %} value="{{message[1]}}" {% endif %}> 
+            {% if message and message[1].strip()=="" %} <span style="color:red">Password should not be empty </span>{% endif %}
+            </div>
         <input type="submit" value="Login">
     </form>
     <br>

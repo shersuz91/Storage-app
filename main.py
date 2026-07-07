@@ -21,11 +21,20 @@ def home():
 #route for login page -Tess
 @app.route("/login", methods=["GET", "POST"])
 def login():
+    if request.method == "POST":
+        email = request.form.get('email')
+        password = request.form.get('password')
+        print(email, password)
     return render_template("login.html")
 
 #route for signup page -Tess
-@app.route("/signup")
+@app.route("/signup", methods = ["GET", "POST"])
 def signup():
+    if request.method == "POST":
+        email = request.form.get('email')
+        username = request.form.get('username')
+        password = request.form.get('password')
+        print(email, username, password)
     return render_template("signup.html")
 
 

@@ -27,7 +27,8 @@
 #nav-bar {
     background-color: rgb(83, 83, 83);
     width: 15%;
-    display: flex;
+    position: fixed;
+    left:0; 
     justify-content: center;
 }
 
@@ -41,6 +42,11 @@ a:link {
 
 li a:hover {
     background-color: rgb(85, 147, 184);
+}
+
+#notes-container {
+    width: 85%;
+    padding-left: 15%;
 }
 
 .note-item {
@@ -68,27 +74,22 @@ li a:hover {
         </ul>
     </div>
 <!--Notes Parent Container-->
-    <div class="container-md">
+    <div id="notes-container" class="container-md">
     <h3>Notes</h3>
 <!-- Notes Grid Container -->
         <div class="row">
             <div class="col">
                 <div class="note-item"><img src="note-img"><h5>Note Title</h5></div>
-                <div class="note-item"><img src="note-img"><h5>Note Title</h5></div>
+            </div>
+            <div class="col">
                 <div class="note-item"><img src="note-img"><h5>Note Title</h5></div>
             </div>
             <div class="col">
                 <div class="note-item"><img src="note-img"><h5>Note Title</h5></div>
-                <div class="note-item"><img src="note-img"><h5>Note Title</h5></div>
-                <div class="note-item"><img src="note-img"><h5>Note Title</h5></div>
             </div>
             <div class="col">
                 <div class="note-item"><img src="note-img"><h5>Note Title</h5></div>
-                <div class="note-item"><img src="note-img"><h5>Note Title</h5></div>
-                <div class="note-item"><img src="note-img"><h5>Note Title</h5></div>
             </div>
-            <div class="col"></div>
-            <!-- <div class="note-item"><img src="note-img"><h5>Note Title</h5></div> -->
         </div>
 </body>
 </html>

@@ -5,7 +5,90 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
-<body>
-    <h1>Hello {{session["username"]}}</h1>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+<style>
+  * {
+    padding: 0;
+    margin: 0;
+    }
+
+    body {
+    background-color: rgb(0, 0, 0);
+
+    }
+
+    #welcome-bar {
+    background-color: rgb(83, 83, 83);
+    padding: 0;
+    display: flex;
+    }
+
+#nav-bar {
+    background-color: rgb(83, 83, 83);
+    width: 15%;
+    display: flex;
+    justify-content: center;
+}
+
+ul {
+    list-style-type: none;
+}
+
+a:link {
+    text-decoration: none;
+}
+
+li a:hover {
+    background-color: rgb(85, 147, 184);
+}
+
+.note-item {
+    background-color: rgb(83, 83, 83);
+    border: 2px solid;
+}
+
+</style>
+<body> 
+<!---Top bar displaying welcome and search -T-->
+    <div id="welcome-bar"> 
+        <h3><img src="app_logo">App Name | </h3>
+            <form action="">
+                <input type="search" value="Search Notes">
+                <input type="submit" value="Search"></input>
+            </form>
+        <h3>| Hello {{session["username"]}} <img src="user_pic"> </h3>
+    </div>
+<!--Side Nav-bar-->
+    <div id="nav-bar">
+        <ul>
+            <li><a href="{{ url_for('dashboard')}}">Dashboard</a></li>
+            <li><a href="{{ url_for('')}}"></a>Link 2</li>
+            <li><a href="{{ url_for('')}}"></a>Link 3</li>
+        </ul>
+    </div>
+<!--Notes Parent Container-->
+    <div class="container-md">
+    <h3>Notes</h3>
+<!-- Notes Grid Container -->
+        <div class="row">
+            <div class="col">
+                <div class="note-item"><img src="note-img"><h5>Note Title</h5></div>
+                <div class="note-item"><img src="note-img"><h5>Note Title</h5></div>
+                <div class="note-item"><img src="note-img"><h5>Note Title</h5></div>
+            </div>
+            <div class="col">
+                <div class="note-item"><img src="note-img"><h5>Note Title</h5></div>
+                <div class="note-item"><img src="note-img"><h5>Note Title</h5></div>
+                <div class="note-item"><img src="note-img"><h5>Note Title</h5></div>
+            </div>
+            <div class="col">
+                <div class="note-item"><img src="note-img"><h5>Note Title</h5></div>
+                <div class="note-item"><img src="note-img"><h5>Note Title</h5></div>
+                <div class="note-item"><img src="note-img"><h5>Note Title</h5></div>
+            </div>
+            <div class="col"></div>
+            <!-- <div class="note-item"><img src="note-img"><h5>Note Title</h5></div> -->
+        </div>
 </body>
 </html>

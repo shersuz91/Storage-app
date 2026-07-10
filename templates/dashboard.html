@@ -14,19 +14,29 @@
     }
 
     body {
-    background-color: rgb(0, 0, 0);
-
+    background-color: rgb(41, 41, 41);
     }
 
     #welcome-bar {
     background-color: rgb(83, 83, 83);
-    padding: 0;
     display: flex;
+    justify-content: space-between;
+    }
+
+    #logo-container {
+    display: inline-flex;
+    width: 15%;
+    }
+
+    #search-hello {
+    display:flex;
+    justify-content:space-around;
     }
 
 #nav-bar {
     background-color: rgb(83, 83, 83);
     width: 15%;
+    border-radius: 3px;
     position: fixed;
     left:0; 
     justify-content: center;
@@ -45,8 +55,28 @@ li a:hover {
 }
 
 #notes-container {
+    background-color: rgb(83, 83, 83);
     width: 85%;
-    padding-left: 15%;
+    border-radius: 3px;
+    margin-top: 3%;
+    margin-left: auto;
+    margin-right: 0;
+}
+
+#note-head {
+    display: flex;
+    justify-content: space-between; /* Pushes title to left, button to right */
+    align-items: center; /* Vertically aligns them in the center of the row */
+    width: 100%;
+}
+
+.outline {
+    border: 2px solid;
+    border-color: rgb(37, 37, 37);
+}
+
+.outline:hover {
+    background-color: rgb(85, 147, 184);
 }
 
 .note-item {
@@ -54,16 +84,23 @@ li a:hover {
     border: 2px solid;
 }
 
+.note-item:hover {
+    background-color: rgb(85, 147, 184);
+}
+
 </style>
 <body> 
 <!---Top bar displaying welcome and search -T-->
     <div id="welcome-bar"> 
-        <h3><img src="app_logo">App Name | </h3>
-            <form action="">
-                <input type="search" value="Search Notes">
-                <input type="submit" value="Search"></input>
-            </form>
-        <h3>| Hello {{session["username"]}} <img src="user_pic"> </h3>
+        <h3 id="logo-container"><img src="app_logo">App Name</h3>
+
+        <div id="search-hello"></div>
+                <form action="">
+                    <input type="search" value="Search Notes">
+                    <input type="submit" value="Search"></input>
+                </form>
+            <h3>| Hello, {{session["username"]}} <img src="user_pic"> </h3>
+        </div>
     </div>
 <!--Side Nav-bar-->
     <div id="nav-bar">
@@ -75,8 +112,11 @@ li a:hover {
     </div>
 <!--Notes Parent Container-->
     <div id="notes-container" class="container-md">
-    <h3>Notes</h3>
-<!-- Notes Grid Container -->
+    <header id="note-head">
+    <h3 class="outline">Notes</h3> 
+    <a class="outline" href="" > +Note</a>
+    </header>
+    <!-- Notes Grid Container -->
         <div class="row">
             <div class="col">
                 <div class="note-item"><img src="note-img"><h5>Note Title</h5></div>
@@ -91,5 +131,6 @@ li a:hover {
                 <div class="note-item"><img src="note-img"><h5>Note Title</h5></div>
             </div>
         </div>
+    </div>
 </body>
 </html>

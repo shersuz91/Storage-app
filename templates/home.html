@@ -4,14 +4,66 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 </head>
+<style>
+    body {
+        background-color: rgb(47, 52, 56);
+    }
+    #logo-head {
+        padding-left: 0%;
+        padding-right: 60%;
+    }
+    #welcome {
+        display: flex;
+        margin-left: 5%;
+        margin-bottom: 5%;
+        padding: 1%;
+        width: fit-content;
+        color:rgb(25, 25, 26);
+        background-color: rgb(202, 215, 221);
+        box-shadow: 3px 5px 3px rgba(15, 15, 15, 0.61);
+    }
+    #main-text {
+        display: flex;
+        justify-self: center;
+        background-color: rgb(202, 215, 221);
+        width: 80%;
+        padding: 1%;
+        box-shadow: 3px 5px 3px rgba(15, 15, 15, 0.61);
+    }
+    #main-container {
+        padding-top: 3%;
+        padding-bottom: 3%;
+        width:60%;
+        background-color: rgb(61, 95, 128);
+        border: 2px solid #0dcaf0;
+    }
+    #footer {
+        color: rgb(202, 215, 221);
+        font-size: small; 
+    }
+
+</style>
 <body>
-    <h2>Welcome</h2> 
-    <a href="{{ url_for('login')}}"> login </a> <!--To be styled as button in css T-->
-    <br>
-    <p>The purpose of this web application is to create a space for users to make notes and files.
-    This is a collaborative project between __ <!--enter our names here, full names? T-->. We are using this project as  way of expanding our coding skills and praactice working on a team. 
-    </p>
-    
+    <div id="header" class="container"> 
+        <header class="d-flex flex-wrap align-items-center justify-content-center  py-3 mb-4 border-bottom border-info"> 
+            <img src="logo" class="img-fluid" id="logo-head"> <!--Create a logo for app to go here -T-->
+            <button type="button" class="btn btn-outline-info me-2" id="login-signup" type="submit" href="{{url_for('login')}}">Login </button> 
+            <button type="button" class="btn btn-outline-info me-2" id="login-signup" type="submit">Sign-up</button> </div>
+        </header> 
+    </div>
+    <div class="container " id="main-container">
+        <h2 id="welcome">Welcome!</h2>
+        <h6 id="main-text">The purpose of this web application is to create a space for users to make notes and files. Users can sign-up or login to create, edit and delete files. <br> <br>
+        This is a collaborative project between __ <!--enter our names here, full names? T-->. We are using this project as  way of expanding our coding skills and practice working on a team. 
+        </h6>
+    </div>
+    <footer id="footer" class="d-flex flex-wrap justify-content-center fixed-bottom py-3 mb-4 border-top border-info"> 
+        Our Github pages: 
+        <button type="button" class="btn btn-outline-info me-2" id="login-signup" type="submit">Tess</button>
+        <button type="button" class="btn btn-outline-info me-2" id="login-signup" type="submit">Sherman</button>
+    </footer>
 </body>
 </html>

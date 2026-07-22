@@ -196,8 +196,9 @@
 
 <body>
   <div id="summernote" onchange="checkit(this)">
-    {{session["id"]}}
-    {{file_data["file_content"]|safe}}
+    {% if file_data["file_content"]|safe != "None"  %}
+      {{file_data["file_content"]|safe}}
+    {% endif %}
   </div>
   
   <div id="option_list" class='option_list small_screen'>
@@ -208,10 +209,10 @@
             aria-current="page" data-bs-toggle="tooltip" data-bs-placement="right" aria-label="Edite"
             data-bs-original-title="Edite">
             <i class="bi bi-pencil-square"></i> Edit</button> </li>
-        <li> <a href="#" class="nav-link py-3 border-bottom rounded-0" data-bs-toggle="tooltip"
+        <li> <a href="{{url_for('delete', id = file_data['id'])}}" class="nav-link py-3 border-bottom rounded-0" data-bs-toggle="tooltip"
             data-bs-placement="right" aria-label="Delete" data-bs-original-title="Delete"> <i class="bi bi-trash"></i>
             Delete</a> </li>
-        <li> <a href="#" class="nav-link py-3 border-bottom rounded-0" data-bs-toggle="tooltip"
+        <li> <a href="{{url_for('dashboard')}}" class="nav-link py-3 border-bottom rounded-0" data-bs-toggle="tooltip"
             data-bs-placement="right" aria-label="Dashboard" data-bs-original-title="Dashboard"> <i
               class="bi bi-file-bar-graph"></i>Dashboard</a> </li>
 
@@ -243,7 +244,7 @@
     <button class="btn btn-danger" onclick="cancel(this)">Cancel</button>
 </div>
   </div>
-  <form id="form" action="/save" method="post">
+  <form id="form" action="/updateFile" method="post">
     <input type="hidden" value="" id="file_content" name="file_content">
     <input type="hidden" value="{{file_data["id"]|safe}}" id="file_id" name="file_id">
   </form>

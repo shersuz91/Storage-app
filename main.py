@@ -1,9 +1,9 @@
-from flask import Flask, render_template, request, session,redirect, url_for
+from flask import Flask, render_template, request, session,redirect, url_for, flash
 from datetime import datetime
 import sqlite3
 import requests
 from sqlalchemy import create_engine, text
-
+from checkAccess import checkAccess  # this has a decorate function come from the file checkAccess. It is responsible to check if the user loged in  -sherman
 
 app = Flask(__name__)
 
@@ -18,10 +18,30 @@ engine = create_engine(DATABASE_URL)
 
 
 
+
+
 #route for Home/main page -Tess
 @app.route("/")
 def home():
     return render_template("home.html")
+
+
+# route for dashbboard page -Sherman
+@app.route("/dashboard")
+@checkAccess # this is a decorate function come from the file checkAccess. It is responsible to check if the user loged in  -sherman
+def dashboard():
+    with engine.begin() as conn:
+        respons = conn.execute(text("""
+SELECT * FROM files WHERE user_id = :user_id
+"""),{
+    "user_id":session["id"]
+})
+    data = list(respons.mappings().fetchall())
+    
+
+    return render_template("dashboard.html", data = data)
+
+
 
 #route for login page -Tess
 @app.route("/login", methods=["GET", "POST"])
@@ -54,7 +74,7 @@ def login(message = ""):
                 session["username"] = data["username"]
                 session["id"] = data["id"]
                 # here should return dashboard route - sherman
-                return render_template("dashboard.html")
+                return redirect(url_for('dashboard'))
             
             # if the row is empty, which means the user does not exist in the database or the email and password are incorrect,
             else:
@@ -139,7 +159,7 @@ SELECT * FROM users WHERE username= :username and email= :email
             })
             session["id"] = dict(response.mappings().all()[0])["id"]
         # here should return dashboard route - sherman
-        return render_template("dashboard.html")
+        return redirect(url_for("dashboard"))
 
     else:
         return render_template("signup.html")
@@ -149,6 +169,7 @@ SELECT * FROM users WHERE username= :username and email= :email
 #this route leads to the file page where you can write a note or read it -sherman
 # run the code and add to the link /file/4 or 5 or 6 or 7 or 8 (each number is the id of a file) -sherman
 @app.route("/file/<int:id>")
+@checkAccess
 def file(id):
     # this sessions should be in login or sign in route , we will remove it later
 
@@ -173,10 +194,43 @@ def file(id):
     else:
         return "Not" # I will update this later
     
+listR = ['<', '>' ,':', '"', '/', '\\', '|', '?', '*']
+
+
+#create new File
+@app.route("/createFile", methods=["POST"])
+def createFile():
+    fileName = request.form["fileName"]
+    if fileName.strip() == "":
+        flash("File name cannot be empty. File creation failed.", "error")
+        return redirect(url_for("dashboard"))
+    if len(fileName) > 25:
+        flash("File name cannot exceed 25 characters. File creation failed.", "error")
+        return redirect(url_for("dashboard"))
+    if any(char  in listR for char in fileName) :
+        flash("File name cannot contain any of the following characters: < > : \" / \\ | ? * . File creation failed.", "error")
+        return redirect(url_for("dashboard"))
+    nowDate = datetime.now()
+    with engine.begin() as conn:
+        conn.execute(text("""
+INSERT INTO files (file_name, user_id, created_at) VALUES (:file_name, :user_id, :created_at)
+"""),{
+    "file_name":fileName,
+    "user_id" : session["id"],
+    "created_at": nowDate
+})
+    flash("File created successfully.", "success")
+    return redirect(url_for("dashboard"))
+
+
+
+
+
 
 # this route is for saving the changes that the user made on their file -sherman
-@app.route("/save", methods=["POST"])
-def save():
+@app.route("/updateFile", methods=["POST"])
+@checkAccess
+def updateFile():
 
     file_content = request.form["file_content"]
     file_id = request.form["file_id"]
@@ -189,6 +243,18 @@ UPDATE files SET file_content= :file_content WHERE id= :id
     "id": file_id
 })
     return redirect(f"/file/{file_id}")
+
+
+@app.route("/delete/<int:id>")
+def delete(id):
+    with engine.begin() as conn:
+        conn.execute(text("""
+DELETE FROM files WHERE id= :id
+"""),{
+    "id" :id
+})  
+    flash("File deleted successfully.", "success")
+    return redirect(url_for("dashboard"))
 
 if __name__ == "__main__":
     app.run(debug = True)

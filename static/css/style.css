@@ -1,0 +1,11 @@
+dialog::backdrop{
+    backdrop-filter: blur(5px);
+}
+
+#messageFlash{
+    position: fixed;
+    z-index: 100;
+    top: 10px;
+    left: -100%;
+    transition: .9s;
+}

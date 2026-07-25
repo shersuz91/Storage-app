@@ -261,6 +261,16 @@ DELETE FROM files WHERE id= :id AND user_id = :user_id
         flash("Failed to delete file.", "error")
     return redirect(url_for("dashboard"))
 
+
+
+
+@app.route("/logout")
+def logOut():
+    session.clear()
+    return redirect(url_for("home"))
+
+
+
 if __name__ == "__main__":
     app.run(debug = True)
 

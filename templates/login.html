@@ -1,12 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
-    <title>Login</title>
-</head>
+
+    {% extends "header_landing.html" %}
+    {% block style %} 
 <style>
     body {
         background-color: rgb(47, 52, 56);
@@ -35,12 +29,9 @@
         background-color: rgb(61, 95, 128);
     }
 </style>
-<body>
-    <div id="header" class="container"> 
-        <header class="d-flex flex-wrap align-items-center justify-content-center  py-3 mb-4 border-bottom border-info"> 
-            <img src="logo" class="img-fluid" id="logo-head"> <!--Create a logo for app to go here -T-->
-            <a type="button" class="btn btn-outline-info me-2" id="home" type="submit" href="{{url_for('home')}}">Home </a> 
-    </div>
+{% endblock %}
+
+    {% block main %}
         <div id="login-card" class="card text-bg-dark mb-3 w-75 p-3">
             <h5 class="card-header">Login</h5>
             <div class="card-body">
@@ -62,5 +53,4 @@
             </div>
     <br>
     <a href="{{ url_for('signup')}}"> No Account? Signup </a> <!--To be styled as button in css T-->
-</body>
-</html>
+{% endblock %}

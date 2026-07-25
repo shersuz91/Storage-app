@@ -160,9 +160,10 @@ li a:hover {
 <!--Side Nav-bar-->
     <div id="nav-bar">
         <ul>
-            <li><a href="{{ url_for('dashboard')}}">Dashboard</a></li>
-            <li><a href=""></a>Link 2</li>
-            <li><a href=""></a>Link 3</li>
+            <li><a class="text-light" href="{{ url_for('dashboard')}}">Dashboard</a></li>
+            <li><a class="text-light" href="">Link 2</a></li>
+            <li><a class="text-light" href="">Link 3</a></li>
+            <li><a class="text-light" href="{{url_for('logOut')}}">log out</a></li>
         </ul>
     </div>
 <!--Notes Parent Container-->

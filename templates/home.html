@@ -1,21 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
-</head>
-<style>
+
+    {% extends "header_landing.html" %}
+    {% block style %} 
+    <style>
     body {
         background-color: rgb(47, 52, 56);
     }
-    #logo-head {
-        padding-left: 0%;
-        padding-right: 60%;
-    }
-    
+   
 
     #main-text {
         display: flex;
@@ -27,26 +17,16 @@
         color: rgb(202, 215, 221);
         font-size: small; 
     }
-
 </style>
-<body>
-    <div id="header" class="container"> 
-        <header class="d-flex flex-wrap align-items-center justify-content-center  py-3 mb-4 border-bottom border-info"> 
-            <img src="logo" class="img-fluid" id="logo-head"> <!--Create a logo for app to go here -T-->
-            <a type="button" class="btn btn-outline-info me-2" id="login-signup" type="submit" href="{{url_for('login')}}">Login </a> 
-            <a type="button" class="btn btn-outline-info me-2" id="login-signup" type="submit" href="{{url_for('signup')}}">Sign-up</a> </div>
-        </header> 
-    </div>
+
+    {% endblock %}
+
+    {% block main %}
     <div id="main-text" class="card text-bg-dark mb-3 w-75 p-3">
         <h2 class="card-header">Welcome!</h2>
         <div class="card-body">The purpose of this web application is to create a space for users to make notes and files. Users can sign-up or login to create, edit and delete files. <br> <br>
         This is a collaborative project between __ <!--enter our names here, full names? T-->. We are using this project as  way of expanding our coding skills and practice working on a team. 
         </div>
     </div>
-    <footer id="footer" class="d-flex flex-wrap justify-content-center fixed-bottom py-3 mb-4 border-top border-info"> 
-        Our Github pages: 
-        <a type="button" class="btn btn-outline-info me-2" id="login-signup" type="submit" href="https://github.com/spikeyhairedbeastgirl-beep">Tess</a>
-        <a type="button" class="btn btn-outline-info me-2" id="login-signup" type="submit" href="https://github.com/shersuz91">Sherman</a>
-    </footer>
-</body>
-</html>
+    {% endblock %}
+    

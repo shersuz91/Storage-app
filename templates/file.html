@@ -128,7 +128,7 @@
     }
 
     .nav>li>a,
-    .nav>li>button {
+    .nav>li button {
       font-size: 20px;
       text-align: left;
       position: relative;
@@ -209,9 +209,9 @@
             aria-current="page" data-bs-toggle="tooltip" data-bs-placement="right" aria-label="Edite"
             data-bs-original-title="Edite">
             <i class="bi bi-pencil-square"></i> Edit</button> </li>
-        <li> <a href="{{url_for('delete', id = file_data['id'])}}" class="nav-link py-3 border-bottom rounded-0" data-bs-toggle="tooltip"
+        <li> <form action="{{url_for('delete', id = file_data['id'])}}" method="POST"><button class="nav-link py-3 border-bottom rounded-0" data-bs-toggle="tooltip"
             data-bs-placement="right" aria-label="Delete" data-bs-original-title="Delete"> <i class="bi bi-trash"></i>
-            Delete</a> </li>
+            Delete</button> </form></li>
         <li> <a href="{{url_for('dashboard')}}" class="nav-link py-3 border-bottom rounded-0" data-bs-toggle="tooltip"
             data-bs-placement="right" aria-label="Dashboard" data-bs-original-title="Dashboard"> <i
               class="bi bi-file-bar-graph"></i>Dashboard</a> </li>

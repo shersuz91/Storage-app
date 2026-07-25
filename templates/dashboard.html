@@ -78,10 +78,46 @@ li a:hover {
 .outline:hover {
     background-color: rgb(85, 147, 184);
 }
+.note_link{
+    position: relative;
+}
+.note_link::before{
+    content: attr(fileName);
+    color: black;
+    display: none;
+    position: absolute;
+    width: max-content;
+    left: 50%;
+    top: calc(100% + 13px);
+    transform: translateX(-50%);
+    background-color: rgb(192, 191, 191);
+    padding: 5px;
+}
+.note_link::after{
+    content: "";
+    display: none;
+    width: 5px;
+    height: 5px;
+    /* background-color: black; */
+    position: absolute;
+    border-top: 0px solid red;
+    border-left: 15px solid transparent;
+    border-bottom: 15px solid rgb(192, 191, 191);
+    border-right: 15px solid transparent;
+    left: 50%;
+    top: 100%;
+    transform: translate(-50%);
+}
+.note_link:hover::before, .note_link:hover::after{
+    display: block;
+}
+
 
 .note-item {
     background-color: rgb(83, 83, 83);
-    border: 2px solid;
+    /* border: 2px solid; */
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 .note-item:hover {
@@ -145,8 +181,10 @@ li a:hover {
             {% if data %}
 
                 {% for row in data %}
-                    <div class="col-sm-12 col-md-6 col-lg-4  p-2">
-                        <div class="note-item p-2 rounded-2"><img src="note-img"><h5><a class="text-light" href="{{url_for('file', id=row['id'])}}">{{row["file_name"]}}</a></h5></div>
+                    <div class="col-4 col-sm-3 col-md-2 col-lg-1 ">
+                        <div class="boxNoteButton border border-2 rounded-2 position-relative">
+                            <a class="note_link text-light" href="{{url_for('file', id=row['id'])}}" fileName = "{{row["file_name"]}}"><div class="note-item  p-2 rounded-2" ><img src="{{url_for('static', filename='images/file.png')}}" width="100%"><h5>{{row["file_name"]}}</h5></div></a>
+                        </div>
                     </div>
                 {% endfor %}
 

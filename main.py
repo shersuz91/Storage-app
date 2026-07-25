@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, session,redirect, url_for, flash
+from flask import Flask,  render_template, request, session,redirect, url_for, flash
 from datetime import datetime
 import sqlite3
 import requests
@@ -245,15 +245,20 @@ UPDATE files SET file_content= :file_content WHERE id= :id
     return redirect(f"/file/{file_id}")
 
 
-@app.route("/delete/<int:id>")
+@app.route("/delete/<int:id>", methods=["POST"])
 def delete(id):
     with engine.begin() as conn:
-        conn.execute(text("""
-DELETE FROM files WHERE id= :id
+        response = conn.execute(text("""
+DELETE FROM files WHERE id= :id AND user_id = :user_id
 """),{
-    "id" :id
+    "id" :id,
+    "user_id":session['id']
 })  
-    flash("File deleted successfully.", "success")
+    deletedFiles = response.rowcount
+    if deletedFiles:
+        flash("File deleted successfully.", "success")
+    else:
+        flash("Failed to delete file.", "error")
     return redirect(url_for("dashboard"))
 
 if __name__ == "__main__":

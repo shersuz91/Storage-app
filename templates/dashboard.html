@@ -1,12 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-<link rel="stylesheet" href="../static/css/style.css">
+    {% extends "header_landing.html" %}
+    {% block style %} 
 <style>
   * {
     padding: 0;
@@ -14,53 +7,26 @@
     }
 
     body {
-    background-color: rgb(41, 41, 41);
+    background-color: rgb(47, 52, 56);
     }
-
-    #welcome-bar {
-    background-color: rgb(83, 83, 83);
-    display: flex;
-    justify-content: space-between;
-    }
-
-    #logo-container {
-    display: inline-flex;
-    width: 15%;
-    }
-
-    #search-hello {
-    display:flex;
-    justify-content:space-around;
-    }
-
-#nav-bar {
-    background-color: rgb(83, 83, 83);
-    width: 15%;
-    border-radius: 3px;
-    position: fixed;
-    left:0; 
-    justify-content: center;
-}
-
-ul {
-    list-style-type: none;
-}
 
 a:link {
     text-decoration: none;
 }
 
-li a:hover {
-    background-color: rgb(85, 147, 184);
+#search-bar {
+    background-color: rgb(61, 95, 128);
 }
-
+#search-button {
+    background-color: rgb(13, 202, 240);
+}
 #notes-container {
-    background-color: rgb(83, 83, 83);
+    background-color: rgb(15, 15, 15);
     width: 85%;
     border-radius: 3px;
     margin-top: 3%;
     margin-left: auto;
-    margin-right: 0;
+    margin-right: auto;
 }
 
 #note-head {
@@ -72,7 +38,7 @@ li a:hover {
 
 .outline {
     border: 2px solid;
-    border-color: rgb(37, 37, 37);
+    border-color: rgb(61, 95, 128);
 }
 
 .outline:hover {
@@ -114,7 +80,7 @@ li a:hover {
 
 
 .note-item {
-    background-color: rgb(83, 83, 83);
+    background-color: rgb(47, 52, 56);
     /* border: 2px solid; */
     overflow: hidden;
     white-space: nowrap;
@@ -127,10 +93,14 @@ li a:hover {
 .middle{
     /* transform: translate(-50%, -50%); */
 }
-
+#footer {
+        color: rgb(202, 215, 221);
+        font-size: small; 
+    }
 </style>
+    {% endblock %}
 
-<body> 
+    {% block main %}
 
     {% with messages = get_flashed_messages(with_categories=true) %}
 
@@ -146,33 +116,18 @@ li a:hover {
 
     {% endwith %}
 <!---Top bar displaying welcome and search -T-->
-    <div id="welcome-bar"> 
-        <h3 id="logo-container"><img src="app_logo">App Name</h3>
-
-        <div id="search-hello"></div>
                 <form action="">
-                    <input type="search" value="Search Notes">
-                    <input type="submit" value="Search"></input>
+                    <input id="search-bar" type="search" value="Search Notes">
+                    <input id="search-button" type="submit" value="Search"></input>
                 </form>
-            <h3>| Hello, {{session["username"]}} <img src="user_pic"> </h3>
-        </div>
-    </div>
 <!--Side Nav-bar-->
-    <div id="nav-bar">
-        <ul>
-            <li><a class="text-light" href="{{ url_for('dashboard')}}">Dashboard</a></li>
-            <li><a class="text-light" href="">Link 2</a></li>
-            <li><a class="text-light" href="">Link 3</a></li>
-            <li><a class="text-light" href="{{url_for('logOut')}}">log out</a></li>
-        </ul>
-    </div>
+
 <!--Notes Parent Container-->
     <div id="notes-container" class="container-md">
     <header id="note-head">
     <h3 class="outline">Notes</h3> 
     <button class="outline btn btn-outline-primary text-light" id="newNoteBtn"> +Note</button>
     </header>
-
     
     <!-- Notes Grid Container -->
         <div class="row">
@@ -192,14 +147,11 @@ li a:hover {
             {% else %}
 
                 <div class="col-sm-12 col-md-6 col-lg-4  p-2">
-                    <div class="note-item p-2 rounded-2"><h5>No Notes Found <button class="outline btn btn-outline-primary text-light" onclick="openNote()" > Create The Tirst Note</button></h5></div>
+                    <div class="note-item p-2 rounded-2"><h5>No Notes Found <button class="outline btn btn-outline-primary text-light" onclick="openNote()" > Create The First Note</button></h5></div>
                 </div>
 
             {% endif %}
         </div>
     </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
-<script src="../static/JS/app.js"></script>
-</body>
-</html>
+    {% endblock %}

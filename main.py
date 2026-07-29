@@ -4,7 +4,9 @@ import sqlite3
 import requests
 from sqlalchemy import create_engine, text
 from checkAccess import checkAccess  # this has a decorate function come from the file checkAccess. It is responsible to check if the user loged in  -sherman
-
+import string
+letters = list(string.ascii_letters)
+print(letters)
 app = Flask(__name__)
 
 # this key is for session -sherman
@@ -128,6 +130,8 @@ SELECT * FROM users WHERE email= :email OR username= :username
             dataList.append("invalidEmail")
         if password != confirmpassword:
             dataList.append("wrongConfirm")
+        if all(letter not in password for letter in letters) or all(num not in password for num in ["0","1","2","3","4","5","6","7","8","9"]) or all(char not in password for char in ["#","$","&","*","(",")","^","%"]):
+            dataList.append("invalidPassword")
 
 
         # here i am checking if all fields in the form is not empty (empty string return false), so if one is false so don't continue

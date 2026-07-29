@@ -49,8 +49,10 @@
             
             <div>
                 <label for="password">Password:</label>
-                <input type="password" id="password" name="password" {% if message and message[2].strip() !="" %} value ="{{message[2]}}" {% endif %}> 
+                <input type="password" id="password" name="password" {% if message and message[2].strip() !="" %} value ="{{message[2]}}" {% endif %} title="Must contain at least one number and one uppercase and lowercase letter and one special character like #$&*()^% , and at least 8 or more characters"  pattern="^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[#$&*\(\)^%]).{8,}$"> 
                 {% if message and message[2].strip() =="" %} <span style="color:red">Password should not be empty </span>{% endif %}
+                {% if message and  "invalidPassword" in message %} <span style="color:red">Password  is not valid  </span>{% endif %}
+                {% if message and  "invalidPassword" in message %} <p   style="color:red">Must contain at least: <br>&nbsp;&nbsp;&nbsp;&nbsp;one number <br>&nbsp;&nbsp;&nbsp;&nbsp;one uppercase and lowercase letter <br>&nbsp;&nbsp;&nbsp;&nbsp;one special character like #$&*()^% , <br>&nbsp;&nbsp;&nbsp;&nbsp;at least 8 or more characters</p>{% endif %}
             </div>
             <div>
                 <label for="confirm_password">Confirm Password:</label>

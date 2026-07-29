@@ -21,12 +21,7 @@ a:link {
     background-color: rgb(13, 202, 240);
 }
 #notes-container {
-    background-color: rgb(15, 15, 15);
-    width: 85%;
     border-radius: 3px;
-    margin-top: 3%;
-    margin-left: auto;
-    margin-right: auto;
 }
 
 #note-head {
@@ -116,18 +111,21 @@ a:link {
 
     {% endwith %}
 <!---Top bar displaying welcome and search -T-->
-                <form action="">
-                    <input id="search-bar" type="search" value="Search Notes">
-                    <input id="search-button" type="submit" value="Search"></input>
+                <form action="" class="l">
+                    <div class="input-group mb-3 w-50">
+                        <input id="search-bar" type="search" class="form-control" placeholder="Search Notes">
+                        <input id="search-button" type="submit" class="input-group-text" value="Search"></input>
+                    </div>
+                    
                 </form>
 <!--Side Nav-bar-->
 
 <!--Notes Parent Container-->
-    <div id="notes-container" class="container-md">
-    <header id="note-head">
-    <h3 class="outline">Notes</h3> 
+    <div id="notes-container" class="container-md mt-2">
+    <div id="note-head">
+    <h3 class=" text-white">Notes</h3> 
     <button class="outline btn btn-outline-primary text-light" id="newNoteBtn"> +Note</button>
-    </header>
+    </div>
     
     <!-- Notes Grid Container -->
         <div class="row">
@@ -137,7 +135,7 @@ a:link {
             {% if data %}
 
                 {% for row in data %}
-                    <div class="col-4 col-sm-3 col-md-2 col-lg-1 ">
+                    <div class="col-4 col-sm-3 col-md-2 col-lg-1 mb-2">
                         <div class="boxNoteButton border border-2 rounded-2 position-relative">
                             <a class="note_link text-light" href="{{url_for('file', id=row['id'])}}" fileName = "{{row["file_name"]}}"><div class="note-item  p-2 rounded-2" ><img src="{{url_for('static', filename='images/file.png')}}" width="100%"><h5>{{row["file_name"]}}</h5></div></a>
                         </div>

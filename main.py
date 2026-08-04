@@ -267,6 +267,22 @@ DELETE FROM files WHERE id= :id AND user_id = :user_id
 
 
 
+@app.route("/updateFileName", methods=["POST"])
+@checkAccess
+def updateFileName():
+
+    file_name = request.form["file_name"]
+    file_id = request.form["file_id"]
+    with engine.begin() as conn:
+        conn.execute(text("""
+UPDATE files SET file_name= :file_name WHERE id= :id
+"""), {
+    "file_name": file_name,
+    "id": file_id
+})
+    return redirect(url_for("dashboard"))
+
+
 
 @app.route("/logout")
 def logOut():

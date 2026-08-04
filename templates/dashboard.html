@@ -44,14 +44,14 @@ a:link {
 }
 .note_link::before{
     content: attr(fileName);
-    color: black;
+    color: rgb(243, 243, 243);
     display: none;
     position: absolute;
     width: max-content;
     left: 50%;
     top: calc(100% + 13px);
     transform: translateX(-50%);
-    background-color: rgb(192, 191, 191);
+    background-color: rgb(0, 0, 0);
     padding: 5px;
 }
 .note_link::after{
@@ -63,11 +63,15 @@ a:link {
     position: absolute;
     border-top: 0px solid red;
     border-left: 15px solid transparent;
-    border-bottom: 15px solid rgb(192, 191, 191);
+    border-bottom: 15px solid rgb(0, 0, 0);
     border-right: 15px solid transparent;
     left: 50%;
     top: 100%;
     transform: translate(-50%);
+    z-index: 999;
+}
+.note_link:hover{
+    z-index: 9;
 }
 .note_link:hover::before, .note_link:hover::after{
     display: block;
@@ -116,7 +120,6 @@ a:link {
                         <input id="search-bar" type="search" class="form-control" placeholder="Search Notes">
                         <input id="search-button" type="submit" class="input-group-text" value="Search"></input>
                     </div>
-                    
                 </form>
 <!--Side Nav-bar-->
 
@@ -124,7 +127,7 @@ a:link {
     <div id="notes-container" class="container-md mt-2">
     <div id="note-head">
     <h3 class=" text-white">Notes</h3> 
-    <button class="outline btn btn-outline-primary text-light" id="newNoteBtn"> +Note</button>
+    <button class="outline btn btn-outline-primary text-light px-5 fs-5 mb-2" id="newNoteBtn"> +New Note</button>
     </div>
     
     <!-- Notes Grid Container -->
@@ -137,6 +140,12 @@ a:link {
                 {% for row in data %}
                     <div class="col-4 col-sm-3 col-md-2 col-lg-1 mb-2">
                         <div class="boxNoteButton border border-2 rounded-2 position-relative">
+                            <button class="optionBtn btn p-0"><i class="bi bi-three-dots-vertical"></i></button>
+                            <div class="optionCard d-none position-absolute bg-white rounded-2">
+                                <ul class="list-unstyled ">
+                                    <li><button  class="btn" fileId = "{{row['id']}}" fileName="{{row["file_name"]}}" onclick="renameFile(this)">Rename</button></li>
+                                </ul>
+                            </div>
                             <a class="note_link text-light" href="{{url_for('file', id=row['id'])}}" fileName = "{{row["file_name"]}}"><div class="note-item  p-2 rounded-2" ><img src="{{url_for('static', filename='images/file.png')}}" width="100%"><h5>{{row["file_name"]}}</h5></div></a>
                         </div>
                     </div>
@@ -152,4 +161,29 @@ a:link {
         </div>
     </div>
 
+    {% endblock %}
+    {% block script %}
+<script>
+    function renameFile(el){
+        let fileName = el.getAttribute("fileName")
+        let fileId = el.getAttribute("fileId")
+        document.querySelectorAll(".optionCard").forEach(optionCard=>{
+        optionCard.classList.add("d-none")
+    })
+    let formText = `
+            <dialog class="dialog position-fixed top-50 start-50 bg-body-secondary p-5 rounded-5 translate-middle" dialogBox>
+                <form action='/updateFileName' class="formBox" method='post' >
+                    <div class="mb-3">
+                        <label for="fileName" class="form-label">Rename</label>
+                        <input type="text" name='file_name' class="form-control" value=${fileName} id="fileName" >
+                        <input type="hidden" name="file_id" value="${fileId}">
+                    </div>
+                    <button type="submit" id='submitNewFileBtn'  class="btn btn-primary">Rename</button>
+                    <button type="button" class="btn btn-danger" id="closeDialog">Close</button>
+                </form>
+            </dialog>
+    `
+    openNote(formText)
+}
+</script>
     {% endblock %}

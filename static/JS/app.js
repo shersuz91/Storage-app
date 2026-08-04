@@ -1,19 +1,8 @@
 let newNoteBtn = document.getElementById("newNoteBtn")
 let messageFlash = document.getElementById("messageFlash")
-function openNote(){
+function openNote(formText){
 // dialog.showModal()
-    let formText = `
-            <dialog class="dialog position-fixed top-50 start-50 bg-body-secondary p-5 rounded-5 translate-middle" dialogBox>
-                <form action='/createFile' class="formBox" method='post' >
-                    <div class="mb-3">
-                        <label for="fileName" class="form-label">File Name</label>
-                        <input type="text" name='fileName' class="form-control" id="fileName" >
-                    </div>
-                    <button type="submit" id='submitNewFileBtn'  class="btn btn-primary">Create</button>
-                    <button type="button" class="btn btn-danger" id="closeDialog">Close</button>
-                </form>
-            </dialog>
-    `
+    
     let boxDialog = document.createElement("div")
     boxDialog.innerHTML=formText
     document.body.append(boxDialog)
@@ -34,9 +23,31 @@ function openNote(){
 
 }
 newNoteBtn.addEventListener("click", function(){
-    openNote()
+    let formText = `
+            <dialog class="dialog position-fixed top-50 start-50 bg-body-secondary p-5 rounded-5 translate-middle" dialogBox>
+                <form action='/createFile' class="formBox" method='post' >
+                    <div class="mb-3">
+                        <label for="fileName" class="form-label">File Name</label>
+                        <input type="text" name='fileName' class="form-control" id="fileName" >
+                    </div>
+                    <button type="submit" id='submitNewFileBtn'  class="btn btn-primary">Create</button>
+                    <button type="button" class="btn btn-danger" id="closeDialog">Close</button>
+                </form>
+            </dialog>
+    `
+    openNote(formText)
 })
 
+document.querySelectorAll(".optionBtn").forEach(optionBtn=>{
+optionBtn.addEventListener("click", function(el){
+    document.querySelectorAll(".optionCard").forEach(optionCard=>{
+        if(optionCard!=this.nextElementSibling){
+        optionCard.classList.add("d-none")
+        }   
+    })
+this.nextElementSibling.classList.toggle("d-none")
+})
+})
 if (messageFlash){
      setTimeout(function(){
         messageFlash.style.left="0%"

@@ -15,3 +15,19 @@ dialog::backdrop{
     left: -100%;
     transition: .9s;
 }
+.optionBtn{
+    position: absolute;
+    top: 0;
+    right: 0px;
+    color: white;
+    z-index: 99;
+}
+.optionBtn:hover{
+    color: green;
+}
+.optionCard{
+    z-index: 100;
+    top: 20px;
+    right: 0;
+    width: 100%;
+}

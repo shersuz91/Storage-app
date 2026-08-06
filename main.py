@@ -19,9 +19,6 @@ DATABASE_URL="postgresql://neondb_owner:npg_19ZgXruOMpIP@ep-ancient-shape-ahwx4p
 engine = create_engine(DATABASE_URL)
 
 
-
-
-
 #route for Home/main page -Tess
 @app.route("/")
 def home():
@@ -43,7 +40,10 @@ SELECT * FROM files WHERE user_id = :user_id
 
     return render_template("dashboard.html", data = data)
 
-
+#route  for profile page  -Tess
+@app.route("/profile")
+def profile():
+    return render_template("profile.html")
 
 #route for login page -Tess
 @app.route("/login", methods=["GET", "POST"])
@@ -102,7 +102,7 @@ def signup(message = ""):
         password = request.form["password"]
         confirmpassword = request.form["confirmpassword"]
 
-         # ## INPUT VALIDAION CODES STARTS ###
+        # ## INPUT VALIDAION CODES STARTS ###
         # chech if all inputs are not empty
         dataList = [email, username, password, confirmpassword]
 

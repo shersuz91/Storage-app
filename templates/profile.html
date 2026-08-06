@@ -1,0 +1,61 @@
+    {% extends "header_landing.html" %}
+    {% block style %}
+    <style>
+        * {
+            color: ;
+        padding: 0;
+        margin: 0;
+        color: rgb(255, 255, 255);
+        }
+
+        body {
+        background-color: rgb(47, 52, 56);
+        }
+
+        #main-container {
+        display: grid;
+    grid-template-columns:2fr 2fr;
+    grid-template-rows: 1fr;
+    grid-template-areas:
+                        "card card"
+                        "card card";
+        }
+    </style>
+    {% endblock %} 
+
+    {% block main %}
+    <!--maincontainer -T -->
+    <div  class="card text-bg-dark mb-3">
+        <h1 class="card-header">Hello, {{session["username"]}}</h1>
+        <div id="main-container" class="card-body">
+            <!--container for first name -T-->
+            <div class="card border-info mb-3 bg-transparent" style="max-width: 20rem;">
+                <div class="card-header bg-transparent border-info text-bg-dark"> 
+                    First Name <button type="button" class="btn btn-outline-info href="#">Edit</button>
+                </div>
+                <p class="card-text"><!--get data for user first name--> </p>
+            </div>
+            <!--container for last name -T-->
+            <div class="card border-info mb-3 bg-transparent" style="max-width: 20rem;">
+                <div class="card-header bg-transparent border-info text-bg-dark"> 
+                    Last Name <button type="button" class="btn btn-outline-info href="#">Edit</button>
+                </div>
+                <p class="card-text"><!--get data for user last name--></p>
+            </div>
+            <!--container for email -T-->
+            <div class="card border-info mb-3 bg-transparent" style="max-width: 20rem;">
+                <div class="card-header bg-transparent border-info text-bg-dark"> 
+                    Email <button type="button" class="btn btn-outline-info href="#">Edit</button>
+                </div>
+                <p class="card-text"><!--get data for user email--></p>
+            </div>
+            <!--container for password -T-->
+            <div class="card border-info mb-3 bg-transparent" style="max-width: 20rem;">
+                <div class="card-header bg-transparent border-info text-bg-dark"> 
+                    Password <button type="button" class="btn btn-outline-info href="#">Edit</button>
+                </div>
+                <p class="card-text"><!--get data for user password --></p>
+            </div>
+        </div>
+    </div>
+    {% endblock %}

@@ -54,7 +54,7 @@ footer{
         <nav>
             <ul class="p-0 m-0 ">
                 <li class="p-2 "><a class="btn me-2 {% if request.path == '/dashboard' %} btn-info{% else %}btn-outline-info{% endif %} text-start border border-1 rounded-2 w-100 d-block" href="{{url_for("dashboard")}}">Dashboard</a></li>
-                <li class="p-2 "><a href="#" class="text-white p-2 border border-1 rounded-2 w-100 d-block">Profile</a></li>
+                <li class="p-2 "><a href="{{url_for("profile")}}" class="text-white p-2 border border-1 rounded-2 w-100 d-block">Profile</a></li>
                 <li class="p-2 "><a href="#" class="text-white p-2 border border-1 rounded-2 w-100 d-block">Favorite</a></li>
                 <li class="p-2 "><a href="{{url_for("logOut")}}" class="text-white p-2 border border-1 rounded-2 w-100 d-block">Log Out</a></li>
             </ul>

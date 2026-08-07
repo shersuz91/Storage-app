@@ -31,33 +31,43 @@
     <div id="sign-up-card" class="card text-bg-dark mb-3 w-75 p-3">
             <h5 class="card-header">Sign-Up</h5>
             <div class="card-body">
-        <form action = "/signup" method="POST">
-            <div>
-                <label for="email">Email:</label>
-                <input type="text" id="email" name="email" {% if message and message[0].strip() !="" %} value ="{{message[0]}}" {% endif %}> 
-                {% if message and message[0].strip() =="" %} <span style="color:red">Email should not be empty </span>
+        <form action = "/signup" method="POST" class="form-group"> 
+            <div class="row mb-2">
+                <label class="col-2 border border-1 p-2 rounded-start border-end-0" for="first_name">First Name:</label>
+                <input type="text" class="col-10 " id="first_name" name="first_name" {% if message and message[0].strip() !="" %} value ="{{message[0]}}" {% endif %}>
+                {% if message and message[0].strip() =="" %} <span style="color:red">First Name should not be empty </span>{% endif %}
+            </div>
+             <div class="row mb-2">
+                <label class="col-2  border border-1 p-2 rounded-start border-end-0" for="last_name">Last Name:</label>
+                <input type="text" class="col-10 " id="last_name" name="last_name" {% if message and message[1].strip() !="" %} value ="{{message[1]}}" {% endif %}>
+                {% if message and message[1].strip() =="" %} <span style="color:red">Last Name should not be empty </span>{% endif %}
+            </div>
+            <div class="row mb-2">
+                <label class="col-2  border border-1 p-2 rounded-start border-end-0" for="email">Email:</label>
+                <input type="text" class="col-10 " id="email" name="email" {% if message and message[2].strip() !="" %} value ="{{message[2]}}" {% endif %}> 
+                {% if message and message[2].strip() =="" %} <span style="color:red">Email should not be empty </span>
                 {% elif message and "invalidEmail" in message %} <span style="color:red">Email is not valid </span>{% endif %}
                 {% if message and "existedEmail" in message %} <span style="color:red">Email already exists </span>{% endif %}
 
             </div>
-            <div>
-                <label for="username">Username:</label>
-                <input type="text" id="username" name="username"  {% if message and message[1].strip() !="" %} value ="{{message[1]}}" {% endif %}> 
-                {%  if message and message[1].strip() ==""  %} <span style="color:red">Username should not be empty </span>{% endif %}
+            <div class="row mb-2">
+                <label class="col-2  border border-1 p-2 rounded-start border-end-0" for="username">Username:</label>
+                <input type="text" class="col-10 " id="username" name="username"  {% if message and message[3].strip() !="" %} value ="{{message[3]}}" {% endif %}> 
+                {%  if message and message[3].strip() ==""  %} <span style="color:red">Username should not be empty </span>{% endif %}
                 {%  if message and "existedUsername" in message %} <span style="color:red">Username already exists </span>{% endif %}
             </div>
             
-            <div>
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password" {% if message and message[2].strip() !="" %} value ="{{message[2]}}" {% endif %} title="Must contain at least one number and one uppercase and lowercase letter and one special character like #$&*()^% , and at least 8 or more characters"  pattern="^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[#$&*\(\)^%]).{8,}$"> 
-                {% if message and message[2].strip() =="" %} <span style="color:red">Password should not be empty </span>{% endif %}
+            <div class="row mb-2">
+                <label class="col-2  border border-1 p-2 rounded-start border-end-0" for="password">Password:</label>
+                <input type="password" class="col-10 " id="password" name="password" {% if message and message[4].strip() !="" %} value ="{{message[4]}}" {% endif %} title="Must contain at least one number and one uppercase and lowercase letter and one special character like #$&*()^% , and at least 8 or more characters"  pattern="^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[#$&*\(\)^%]).{8,}$"> 
+                {% if message and message[4].strip() =="" %} <span style="color:red">Password should not be empty </span>{% endif %}
                 {% if message and  "invalidPassword" in message %} <span style="color:red">Password  is not valid  </span>{% endif %}
                 {% if message and  "invalidPassword" in message %} <p   style="color:red">Must contain at least: <br>&nbsp;&nbsp;&nbsp;&nbsp;one number <br>&nbsp;&nbsp;&nbsp;&nbsp;one uppercase and lowercase letter <br>&nbsp;&nbsp;&nbsp;&nbsp;one special character like #$&*()^% , <br>&nbsp;&nbsp;&nbsp;&nbsp;at least 8 or more characters</p>{% endif %}
             </div>
-            <div>
-                <label for="confirm_password">Confirm Password:</label>
-                <input type="password" id="confirm_password" name="confirmpassword" {% if message and message[3].strip() !="" %} value ="{{message[3]}}" {% endif %}> 
-                {% if message and message[3].strip() =="" %} <span style="color:red">Password should not be empty </span>{% endif %}
+            <div class="row mb-2">
+                <label class="col-2  border border-1 p-2 rounded-start border-end-0" for="confirm_password">Confirm Password:</label>
+                <input type="password" class="col-10" id="confirm_password" name="confirmpassword" {% if message and message[5].strip() !="" %} value ="{{message[5]}}" {% endif %}> 
+                {% if message and message[5].strip() =="" %} <span style="color:red">Password should not be empty </span>{% endif %}
                 {% if message and "wrongConfirm" in message %} <span style="color:red">Passwords do not match </span>{% endif %}
             </div>
             <input type="submit" value="Sign-Up" class="btn btn-outline-info">

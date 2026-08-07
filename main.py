@@ -42,8 +42,32 @@ SELECT * FROM files WHERE user_id = :user_id
 
 #route  for profile page  -Tess
 @app.route("/profile")
-def profile():
-    return render_template("profile.html")
+def profile(message = ""):
+    with engine.begin() as conn:
+        response = conn.execute(text("""
+SELECT * FROM users WHERE id = :user_id
+"""),{ 
+    "user_id":session["id"]
+})
+        user = dict(response.mappings().first())
+    return render_template("profile.html", user=user, message_=message)
+
+
+@app.route("/edit_profile", methods=["POST"])
+def editProfile():
+    first_name = request.form["first_name"] 
+    last_name = request.form["last_name"]
+    with engine.begin() as conn:
+        conn.execute(text("""
+UPDATE users SET first_name = :first_name, last_name = :last_name WHERE id = :user_id
+"""),{
+    "first_name": first_name,
+    "last_name": last_name,
+    "user_id": session["id"]
+})
+    flash("Profile updated successfully.", "success")
+    return redirect(url_for('profile'))
+
 
 #route for login page -Tess
 @app.route("/login", methods=["GET", "POST"])
@@ -97,6 +121,8 @@ def login(message = ""):
 def signup(message = ""):
     
     if request.method == "POST":
+        first_name = request.form["first_name"]
+        last_name = request.form["last_name"]
         email = request.form["email"] 
         username = request.form["username"]
         password = request.form["password"]
@@ -104,12 +130,12 @@ def signup(message = ""):
 
         # ## INPUT VALIDAION CODES STARTS ###
         # chech if all inputs are not empty
-        dataList = [email, username, password, confirmpassword]
+        dataList = [first_name, last_name, email, username, password, confirmpassword]
 
         if email.strip() !="" or username.strip()!= "":
 
             with engine.begin() as conn:
-                response = conn.execute(text("""
+                response = conn.execute(text(""" 
 SELECT * FROM users WHERE email= :email OR username= :username
 """),{
     "email": email,
@@ -136,7 +162,7 @@ SELECT * FROM users WHERE email= :email OR username= :username
 
         # here i am checking if all fields in the form is not empty (empty string return false), so if one is false so don't continue
         # also I added checking for the length of the datalist if it is more than 4 (which is the number of the fields in the form) so that means there is at least one message for the user
-        if not all(inputs.strip() for inputs in dataList) or len(dataList) > 4:
+        if not all(inputs.strip() for inputs in dataList) or len(dataList) > 6:
             # if one is empty return the dataList to the the sinup page 
             return render_template("signup.html", message=dataList)
         
@@ -145,8 +171,10 @@ SELECT * FROM users WHERE email= :email OR username= :username
         
         with engine.begin() as conn:
             conn.execute(text("""
-        INSERT INTO users (email, username, password) VALUES (:email, :username, :password)
+        INSERT INTO users (first_name, last_name, email, username, password) VALUES (:first_name, :last_name, :email, :username, :password)
         """), {
+            "first_name":first_name,
+            "last_name":last_name,
             "email":email,
             "username":username, 
             "password":password
@@ -168,6 +196,39 @@ SELECT * FROM users WHERE username= :username and email= :email
     else:
         return render_template("signup.html")
 
+
+
+@app.route("/change_password", methods=["POST"])
+def changePassword():
+    current_password = request.form["current_password"]
+    new_password = request.form["new_password"]
+    confirm_new_password = request.form["confirm_new_password"]
+    if new_password != confirm_new_password:
+        flash("New password and confirm new password do not match.", "error")
+        return redirect(url_for("profile", message=detaList))
+    if all(num not in new_password for num in ["0","1","2","3","4","5","6","7","8","9"]) or all(char not in new_password for char in ["#","$","&","*","(",")","^","%"]):
+        flash("New password is invalid.", "error")
+        return redirect(url_for("profile", message=detaList))
+    
+    with engine.begin() as conn:
+        response = conn.execute(text("""
+SELECT * FROM users WHERE id= :user_id
+"""),{
+    "user_id": session["id"]
+})
+        user = dict(response.mappings().first())
+        if user["password"] == current_password:
+            conn.execute(text("""
+UPDATE users SET password= :new_password WHERE id= :user_id
+"""), {
+    "new_password": new_password,
+    "user_id": session["id"]
+})
+            return redirect(url_for("profile"))
+        else:
+            flash("Current password is incorrect.", "error")
+            return redirect(url_for("profile"))
+        
 
 
 #this route leads to the file page where you can write a note or read it -sherman

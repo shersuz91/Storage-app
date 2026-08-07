@@ -22,6 +22,7 @@ function openNote(formText){
     })
 
 }
+
 newNoteBtn.addEventListener("click", function(){
     let formText = `
             <dialog class="dialog position-fixed top-50 start-50 bg-body-secondary p-5 rounded-5 translate-middle" dialogBox>
